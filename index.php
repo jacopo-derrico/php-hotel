@@ -40,6 +40,19 @@
 
    ];
 
+   $filteredHotels = $hotels;
+
+    if (isset($_GET['seeParking']) && $_GET['seeParking'] == '1') {
+       $filtHotelPark = [];
+
+       foreach ($hotels as $el) {
+        if ($el['parking']) {
+            $filtHotelPark[] = $el;
+        };
+       };
+       $filteredHotels = $filtHotelPark;
+    };
+
 ?>
 
 <!DOCTYPE html>
@@ -57,6 +70,16 @@
         <div class="row m-auto my-5">
             <div class="col-8 m-auto ">
                 <h1 class="h1 text-center text-white mb-5 ">Hotels review</h1>
+
+                <form action="index.php" method="GET">
+                    <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" name="seeParking" value="1"
+                        <?php echo isset($_GET['seeParking']) && $_GET['seeParking'] == '1' ? 'checked' : ''; ?>>
+                        <label class="form-check-label" for="flexSwitchCheckDefault">With private parking</label>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Search</button>
+                </form>
+
                 <table class="table table-dark table-hover table-bordered">
                     <thead>
                         <tr>
@@ -68,7 +91,7 @@
                         </tr>
                     </thead>
                     <tbody class="table-group-divider">
-                        <?php foreach ($hotels as $hotel) : ?>
+                        <?php foreach ($filteredHotels as $hotel) : ?>
                         <tr>
                             <th scope="row">
                                 <?= $hotel['name'] ?>
