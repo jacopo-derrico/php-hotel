@@ -53,6 +53,17 @@
        $filteredHotels = $filtHotelPark;
     };
 
+    if (isset($_GET['vote']) && $_GET['vote'] !== '') {
+        $filtHotelPark = [];
+ 
+        foreach ($filteredHotels as $el) {
+         if ($el['vote'] >= $_GET['vote']) {
+             $filtHotelPark[] = $el;
+         };
+        };
+        $filteredHotels = $filtHotelPark;
+     };
+
 ?>
 
 <!DOCTYPE html>
@@ -71,11 +82,21 @@
             <div class="col-8 m-auto ">
                 <h1 class="h1 text-center text-white mb-5 ">Hotels review</h1>
 
-                <form action="index.php" method="GET">
-                    <div class="form-check form-switch">
-                        <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" name="seeParking" value="1"
-                        <?php echo isset($_GET['seeParking']) && $_GET['seeParking'] == '1' ? 'checked' : ''; ?>>
-                        <label class="form-check-label" for="flexSwitchCheckDefault">With private parking</label>
+                <form action="index.php" method="GET" class="mb-5">
+                    <div class="d-flex justify-content-between mb-3"> 
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" name="seeParking" value="1"
+                            <?= isset($_GET['seeParking']) && $_GET['seeParking'] == '1' ? 'checked' : ''; ?>>
+                            <label class="form-check-label" for="flexSwitchCheckDefault">With private parking</label>
+                        </div>
+                        <select class="form-select form-select-sm w-25 " name="vote" id="vote">
+                            <option selected value="0" <?= isset($_GET['vote']) && $_GET['vote'] == '0' ? 'selected' : ''; ?>>Choose per vote</option>
+                            <option value="1" <?= isset($_GET['vote']) && $_GET['vote'] == '1' ? 'selected' : ''; ?>>One</option>
+                            <option value="2" <?= isset($_GET['vote']) && $_GET['vote'] == '2' ? 'selected' : ''; ?>>Two</option>
+                            <option value="3" <?= isset($_GET['vote']) && $_GET['vote'] == '3' ? 'selected' : ''; ?>>Three</option>
+                            <option value="4" <?= isset($_GET['vote']) && $_GET['vote'] == '4' ? 'selected' : ''; ?>>Four</option>
+                            <option value="5" <?= isset($_GET['vote']) && $_GET['vote'] == '5' ? 'selected' : ''; ?>>Five</option>
+                        </select>
                     </div>
                     <button type="submit" class="btn btn-primary">Search</button>
                 </form>
